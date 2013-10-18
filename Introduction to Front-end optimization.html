@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+
+	<title>Introduction to Front-end optimization</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<link rel="stylesheet" href="reveal/css/reveal.css">
+	<link rel="stylesheet" href="prettify/prettify.css">
+	<link rel="stylesheet" href="reveal/css/theme/solarized.css">
+	<link rel="stylesheet" href="tomorrow.css">
+	
+	<style type="text/css">
+			.slides section pre { width: 1000px; }
+			pre .important {
+				background: #C00;
+				color: #fff;
+				font-weight: bold;
+				padding: 1px 8px;
+				border-radius: 8px;
+			}
+			.slides table th, .slides table td {
+				text-align: center;
+			}
+			.slides pre {
+				background: #fff;
+			}
+			.slides table {
+				width: 100%;
+			}
+			.slides footer {
+				font-size: .5em;
+			}
+		</style>
+</head>
+
+<body>
+
+	<div class="reveal">
+
+		<div class="slides">
+			<section data-markdown>
+				## Front-end optimization</h2>
+				Mohammad Tayseer				
+				[Blog](http://mtayseer.net) / [Github](http://github.com/mtayseer) / [Facebook](http://facebook.com/mohammad.tayseer)
+			</section>
+
+			<section data-markdown>
+				## Story
+			</section>
+
+			<section data-markdown>
+				## Why
+				!http://www.strangeloopnetworks.com/assets/images/diagrams/_resampled/resizedimage500257-Strangeloop-Infographic-4.jpg!
+
+			</section>
+
+			<section data-markdown>
+				## HTTP page life cycle
+				TODO
+			</section>
+
+			<section data-markdown>
+				## 80-90% of response time is spent on the front-end
+			</section>
+
+			<section data-markdown>
+				## Analysis Tools
+
+				1. [feedthebot tools](http://www.feedthebot.com/tools/)
+				2. [Google PageSpeed](http://developers.google.com/speed/pagespeed/)
+				
+			</section>
+
+			<section data-markdown>
+				## Optimization techniques
+* Easy
+    1. HTTP Compression
+    2. Image Compression
+    3. Minify JS & CSS
+    4. Use framework builders
+    5. Use CDN (Content Distrubution Network)
+* Medium
+    1. Combine Images
+    2. Caching
+			</section>
+
+			<section data-markdown>
+				## HTTP Compression
+Client sends
+
+	Accept-Encoding: gzip, deflate
+
+Server responds with
+
+	Content-Encoding: gzip
+			</section>
+
+			<section>
+				<h2>Image Compression - Formats</h2>
+				<table>
+					<tr>
+						<th class=fragment data-fragment-index=0>JPG</th>
+						<th class=fragment data-fragment-index=1>PNG</th>
+						<th class=fragment data-fragment-index=2>SVG</th>
+					</tr>
+					<tr>
+						<td class=fragment data-fragment-index=0>
+							<img src="images/hello.png">
+							<br>7KB</td>
+						<td class=fragment data-fragment-index=1>
+							<img src="images/hello.jpg">
+							<br>3KB</td>
+						<td class=fragment data-fragment-index=2>
+							<img src="images/hello.svg">
+							<br>2KB</td>
+					</tr>
+					<tr>
+						<td class=fragment data-fragment-index=4>
+							<img src="images/tayseer.jpg">
+							<br>62KB</td>
+						<td class=fragment data-fragment-index=5>
+							<img src="images/tayseer.png">
+							<br>413KB</td>
+						<td>
+							<img src="images/tayseer.jpg" style="visibility: hidden"></td>
+					</tr>
+				</table>
+			</section>
+
+			<section>
+				<h2>Image Compression - Tools</h2>
+				<ol>
+					<li class=fragment data-fragment-index=0>
+						<a href="http://pmt.sourceforge.net/pngcrush/">PNGCrush</a>
+					</li>
+					<li class=fragment data-fragment-index=0>
+						<a href="http://jpegcompressor.sourceforge.net/">JPEG Compressor</a>
+					</li>
+					<li class=fragment data-fragment-index=0>
+						<a href="http://www.gifreducer.com/">GIF Reducer</a>
+					</li>
+					<li class=fragment data-fragment-index=1>
+						Google
+						<a href="https://developers.google.com/speed/webp/">WebP</a>
+						and
+						<a href="http://www.webmproject.org/">WebM</a>
+					</li>
+				</ol>
+			</section>
+
+			<section>
+				<h2>Use CDN (Content Distrubution Network)</h2>
+				<div style="background-image: url(https://www.cloudflare.com/media/images/features/features-cdn-sprite.png);
+
+background-position: -322px 0;
+display: inline-block;
+width: 705px;
+height: 279px;
+				">
+				</div>
+				<footer data-markdown>
+					Source: https://www.cloudflare.com/features-cdn
+				</footer>
+			</section>
+
+			<section>
+				<h2>Combine images to reduce the number of requests</h2>
+				<img src="images/bootstrap-sprite.png"></td>
+				<pre class="prettyprint"><code data-trim class="css">[class^="icon-"], [class*=" icon-"] {
+   background-image: url("../img/glyphicons-halflings.png");
+}
+.icon-glass { background-position: 0 0;}
+.icon-music { background-position: -24px 0; }
+.icon-search { background-position: -48px 0; }
+.icon-envelope { background-position: -72px 0; }
+.icon-heart { background-position: -96px 0; }
+
+</code></pre>
+
+						</td>
+						<td></td>
+					</tr>
+
+				</table>
+			</section>
+			<section style="text-align: top">
+				<h2>Minify JS & CSS</h2>
+				<table>
+					<tr class=fragment data-fragment-index=0>
+						<td>bootstrap.css</td>
+						<td>116KB</td>
+					</tr>
+					<tr class=fragment data-fragment-index=0>
+						<td>bootstrap.js</td>
+						<td>55KB</td>
+					</tr>
+					<tr class=fragment data-fragment-index=1>
+						<td>bootstrap.min.css</td>
+						<td>96KB</td>
+					</tr>
+					<tr class=fragment data-fragment-index=1>
+						<td>bootstrap.min.js</td>
+						<td>25KB</td>
+					</tr>
+				</table>
+			</section>
+
+			<section>
+				<h2>Use framework builders</h2>
+				<img src="images/jquery-ui-builder.png"></section>
+
+			<section>
+				<h2>Caching</h2>
+				<ol>
+					<li class=fragment data-fragment-index=0>
+						<code>Expires</code>
+						header
+					</li>
+					<li class=fragment data-fragment-index=1>
+						<code>ETag</code>
+						header
+					</li>
+				</ol>
+			</section>
+
+		</div>
+
+	</div>
+
+	<script src="reveal/lib/js/head.min.js"></script>
+	<script src="reveal/js/reveal.min.js"></script>
+	<script src="prettify/prettify.js"></script>
+
+	<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'linear',
+				dependencies: [
+					{ src: 'reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'reveal/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+				]
+			});
+		</script>
+
+</body>
+</html>
