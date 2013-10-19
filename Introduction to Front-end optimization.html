@@ -9,7 +9,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 	<link rel="stylesheet" href="reveal/css/reveal.css">
-	<link rel="stylesheet" href="prettify/prettify.css">
 	<link rel="stylesheet" href="reveal/css/theme/solarized.css">
 	<link rel="stylesheet" href="tomorrow.css">
 	
@@ -22,8 +21,8 @@
 				padding: 1px 8px;
 				border-radius: 8px;
 			}
-			.slides table th, .slides table td {
-				text-align: center;
+			.slides table th {
+				font-weight: bold;
 			}
 			.slides pre {
 				background: #fff;
@@ -31,8 +30,8 @@
 			.slides table {
 				width: 100%;
 			}
-			.slides footer {
-				font-size: .5em;
+			.reveal .slides img {
+				margin: 0; padding:0; border:0;
 			}
 		</style>
 </head>
@@ -43,7 +42,7 @@
 
 		<div class="slides">
 			<section data-markdown>
-				## Front-end optimization</h2>
+				## Web Front-end optimization
 				Mohammad Tayseer				
 				[Blog](http://mtayseer.net) / [Github](http://github.com/mtayseer) / [Facebook](http://facebook.com/mohammad.tayseer)
 			</section>
@@ -52,26 +51,57 @@
 				## Story
 			</section>
 
-			<section data-markdown>
-				## Why
-				!http://www.strangeloopnetworks.com/assets/images/diagrams/_resampled/resizedimage500257-Strangeloop-Infographic-4.jpg!
-
-			</section>
-
-			<section data-markdown>
-				## HTTP page life cycle
-				TODO
+			<section>
+				<h2>Why</h2>
+				<table border=1>
+					<tr>
+						<th>Delay</th>
+						<th>User reaction</th>
+					</tr>
+					<tr>
+						<td>0 - 100ms</td>
+						<td>Instant</td>
+					</tr>
+					<tr>
+						<td>100 - 300ms</td>
+						<td>Still fast</td>
+					</tr>
+					<tr>
+						<td>300 - 1000ms</td>
+						<td>Server is loading</td>
+					</tr>
+					<tr>
+						<td>1s+</td>
+						<td>Goes to Facebook till it finishes loading?</td>
+					</tr>
+					<tr>
+						<td>10s+</td>
+						<td>It's broken</td>
+					</tr>
+				</table>
 			</section>
 
 			<section data-markdown>
 				## 80-90% of response time is spent on the front-end
 			</section>
+			<section>
+				<h2>HTTP page life cycle</h2>
+				<img src="images/http-request-1.png" style="width: 500px;" class=fragment data-fragment-index=0>
+				<img src="images/http-request-2.png" style="width: 500px;" class=fragment data-fragment-index=1>
+				<img src="images/http-request-3.png" style="width: 500px;" class=fragment data-fragment-index=2>
+				<img src="images/http-request-4.png" style="width: 500px;" class=fragment data-fragment-index=3>
+				<img src="images/http-request-5.png" style="width: 500px;" class=fragment data-fragment-index=4>
+			</section>
+
 
 			<section data-markdown>
-				## Analysis Tools
+				## Tools
 
 				1. [feedthebot tools](http://www.feedthebot.com/tools/)
 				2. [Google PageSpeed](http://developers.google.com/speed/pagespeed/)
+				2. [Firebug](getfirebug.com/‎)
+				2. [YSlow](http://developer.yahoo.com/yslow/)
+				2. Chrome DevTools
 				
 			</section>
 
@@ -83,20 +113,27 @@
     3. Minify JS & CSS
     4. Use framework builders
     5. Use CDN (Content Distrubution Network)
-* Medium
-    1. Combine Images
-    2. Caching
+* Not so easy
+    1. Use Images Sprites
+    2. Bundle JS files & CSS files
+    3. Caching
 			</section>
 
-			<section data-markdown>
-				## HTTP Compression
-Client sends
-
-	Accept-Encoding: gzip, deflate
-
-Server responds with
-
-	Content-Encoding: gzip
+			<section>
+				<h2>HTTP Compression</h2>
+				<div data-markdown class=fragment data-fragment-index=0>
+					Client sends
+					<pre><code class=http>
+						Accept-Encoding: gzip, deflate
+					</code></pre>
+				</div>
+				<div data-markdown class=fragment data-fragment-index=1>
+					Server responds with
+					<pre><code class=http>
+						Content-Encoding: gzip
+					</code></pre>
+				</div>
+				<img src="images/compression.png" class=fragment data-fragment-index=2>
 			</section>
 
 			<section>
@@ -153,7 +190,8 @@ Server responds with
 			</section>
 
 			<section>
-				<h2>Use CDN (Content Distrubution Network)</h2>
+				<h2>Use CDN</h2>
+				<h4>Content Distrubution Network</h4>
 				<div style="background-image: url(https://www.cloudflare.com/media/images/features/features-cdn-sprite.png);
 
 background-position: -322px 0;
@@ -162,32 +200,9 @@ width: 705px;
 height: 279px;
 				">
 				</div>
-				<footer data-markdown>
-					Source: https://www.cloudflare.com/features-cdn
-				</footer>
 			</section>
 
 			<section>
-				<h2>Combine images to reduce the number of requests</h2>
-				<img src="images/bootstrap-sprite.png"></td>
-				<pre class="prettyprint"><code data-trim class="css">[class^="icon-"], [class*=" icon-"] {
-   background-image: url("../img/glyphicons-halflings.png");
-}
-.icon-glass { background-position: 0 0;}
-.icon-music { background-position: -24px 0; }
-.icon-search { background-position: -48px 0; }
-.icon-envelope { background-position: -72px 0; }
-.icon-heart { background-position: -96px 0; }
-
-</code></pre>
-
-						</td>
-						<td></td>
-					</tr>
-
-				</table>
-			</section>
-			<section style="text-align: top">
 				<h2>Minify JS & CSS</h2>
 				<table>
 					<tr class=fragment data-fragment-index=0>
@@ -211,10 +226,40 @@ height: 279px;
 
 			<section>
 				<h2>Use framework builders</h2>
-				<img src="images/jquery-ui-builder.png"></section>
+				<a href="http://jqueryui.com/download/" target="_blank"><img src="images/jquery-ui-builder.png"></a>
+			</section>
 
 			<section>
-				<h2>Caching</h2>
+				<h1>Requires more effort to do</h1>
+			</section>
+
+			<section>
+				<h2>Use Image Sprites</h2>
+				<img src="images/bootstrap-sprite.png">
+				<br>
+				One image instead of 140
+				<pre class=fragment data-fragment-index=0><code data-trim class="css">[class^="icon-"], [class*=" icon-"] {
+    background-image: url("../img/glyphicons-halflings.png");
+    width: 14px;
+    height: 14px;
+}
+.icon-glass { background-position: 0 0;}
+.icon-music { background-position: -24px 0; }
+.icon-search { background-position: -48px 0; }
+.icon-envelope { background-position: -72px 0; }
+.icon-heart { background-position: -96px 0; }
+
+</code></pre>
+			</section>
+
+			<section>
+				<h2>Caching - Effect</h2>
+				<img src="images/caching.png" class=fragment data-fragment-index=0>
+			</section>
+
+			<section>
+				<h2>Caching - How?</h2>
+
 				<ol>
 					<li class=fragment data-fragment-index=0>
 						<code>Expires</code>
@@ -227,13 +272,26 @@ height: 279px;
 				</ol>
 			</section>
 
+			<section>
+				<h2>Bundle JS files & CSS files</h2>
+				<ol>
+					<li class=fragment data-fragment-index=0><code>application-hge73h3.js</code></li>
+					<li class=fragment data-fragment-index=0><code>application-39fe93rj.css</code></li>
+				</ol>
+			</section>
+
+			<section data-markdown>
+				## References
+				1. http://www.igvita.com/slides/2013/fluent-perfcourse.pdf
+				2. https://www.cloudflare.com/features-cdn
+			</section>
+
 		</div>
 
 	</div>
 
 	<script src="reveal/lib/js/head.min.js"></script>
 	<script src="reveal/js/reveal.min.js"></script>
-	<script src="prettify/prettify.js"></script>
 
 	<script>
 
